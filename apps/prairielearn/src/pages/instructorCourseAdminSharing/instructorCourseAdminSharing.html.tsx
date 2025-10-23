@@ -14,6 +14,34 @@ export const SharingSetRowSchema = z.object({
 });
 type SharingSetRow = z.infer<typeof SharingSetRowSchema>;
 
+
+function AddNewSharingSetPopover({
+  resLocals
+}: {
+  resLocals: Record<string, any>;
+}) {
+  return html`
+     <form name="sharing-set-create" method="POST"> 
+       <input type="hidden" name="__action" value="sharing_set_create"> 
+       <input type="hidden" name="__csrf_token" value="${resLocals.__csrf_token}"> 
+  
+       <div class="form-group mb-4"> 
+         <p class=form-text> 
+           Enter the name and description of the sharing set you would like to create. 
+         </p> 
+       </div> 
+         <label for="name">Name</label>
+         <input id="name" class="form-control form-control-sm" type="text" name="sharing_set_name" required/> 
+         <label for="description" class="mt-2">Description</label>
+         <input id="description" class="form-control form-control-sm" type="text" name="sharing_set_description" required/> 
+       <div class="text-right mt-4"> 
+         <button type="button" class="btn btn-secondary" data-bs-dismiss="popover">Cancel</button> 
+         <button type="submit" class="btn btn-primary">Create Sharing Set</button> 
+       </div> 
+     </form> 
+   `
+}
+
 function AddCourseToSharingSetPopover({
   sharing_set,
   resLocals,
@@ -236,6 +264,24 @@ export function InstructorCourseAdminSharing({
       <div class="card mb-4">
         <div class="card-header bg-primary text-white d-flex align-items-center">
           <h2>Sharing Sets</h2>
+          <button
+            type="button"
+            class="btn btn-sm btn-secondary ms-auto"
+            onclick=""
+            aria-label="Create new sharing set"
+            data-bs-toggle="popover"
+            data-bs-container="body"
+            data-bs-html="true"
+            data-bs-placement="auto"
+            data-bs-title="Create New Sharing Set"
+            data-bs-content="${escapeHtml(
+            AddNewSharingSetPopover({
+              resLocals,
+            }),
+          )}"
+          >
+            <i class="fa fa-plus"></i>
+          </button>
         </div>
         <div class="table-responsive">
           <table class="table table-sm table-hover table-striped" aria-label="Sharing sets">
